@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blog.app.board.mapper.BoardMapper">
+
+    <select id="getBoardCount" resultType="Int">
+        SELECT COUNT(*)
+        FROM BLOG_BOARD
+    </select>
+
+    <select id="getBoardList" parameterType="BoardVO" resultType="BoardVO">
+        SELECT *
+            FROM (SELECT ID AS BNO
+                ,USER_ID
+                ,TITLE
+                ,content
+                ,TO_CHAR(REG_DATE, 'yyyy-MM-dd') AS REG_DATE
+                ,HIT
+                ,ROWNUM AS NUM
+            FROM BLOG_BOARD
+            WHERE ENABLE = 'Y'
+                <if test = "secondContent != null and secondContent != ''">
+                    AND ROWNUM <![CDATA[<=]]> ${secondContent}
+                </if>
+            ORDER BY BNO DESC)
+        WHERE 1=1
+        <if test = "firstContent != null and firstContent != ''">
+            AND NUM <![CDATA[>=]]> ${firstContent}
+        </if>
+        <if test = "bno != null and  bno != ''">
+            AND BNO =  ${bno}
+        </if>
+        ORDER BY BNO DESC
+
+    </select>
+
+    <insert id="saveBoard" parameterType="BoardVO">
+
+        INSERT INTO BLOG_BOARD
+        (id, user_id, title, content)
+        VALUES
+        ((SELECT MAX(ID)+1 FROM BLOG_BOARD)
+        ,'user2'
+        ,#{title}
+        ,#{content})
+    </insert>
+
+
+<!--    updateHit-->
+<!--    클릭시 조회수를 1 업데이트 한다.-->
+    <update id="updateHit" parameterType="BoardVO">
+        UPDATE BLOG_BOARD
+        SET
+            HIT = (SELECT HIT + 1
+                    FROM BLOG_BOARD
+                    WHERE ID = ${bno})
+        WHERE ID = ${bno}
+
+    </update>
+
+</mapper>

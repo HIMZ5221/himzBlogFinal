@@ -1,0 +1,67 @@
+<!doctype html>
+<html th:fragment="topNav" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/css/publicCss/comm.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/js/jquery.serialize-object.min.js"></script>
+    <style>
+
+
+        .topArea{
+            width: 100%;
+            height: 60px;
+            background-color: black;
+            margin-bottom: 20px;
+        }
+        .nav_container{
+            height: 60px;
+            margin: 0 auto;
+        }
+        .nav_leftArea{
+        }
+        .nav_rightArea{
+            padding-right: 50px;
+        }
+    </style>
+
+    <nav>
+
+        <div class="topArea">
+            <table class="nav_container M_SIZE"  style="color: white;">
+                <thead>
+                    <tr>
+                        <td class="nav_leftArea">
+                            왼쪽 구역 입니다
+                        </td>
+
+                        <td class="nav_rightArea ta-r">
+                            <div class="btn-group">
+                                <a href="/board/inform" class="btn btn-primary" id="자유게시판">자유게시판</a>
+                                <a href="/board/create" class="btn btn-primary" id="글쓰기">글쓰기(CK)</a>
+                                <a href="#" class="btn btn-primary">(준비중)</a>
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </nav>
+
+    <script>
+        function activeBtn(a,b,c){
+            if (a != null && a != 0){
+                document.getElementById('자유게시판').classList.add('active')
+            }
+            if (b != null && b != 0){
+                document.getElementById('글쓰기').classList.add('active')
+            }
+        }
+    </script>
+
+</html>

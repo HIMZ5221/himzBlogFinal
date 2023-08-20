@@ -1,0 +1,26 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    margin: 0;
+}
+.M_SIZE{
+    width: 75%;
+    height: 88%;
+    margin: 0 auto;
+}
+
+.ta-l{
+    text-align: left !important;
+}
+.ta-r{
+    text-align: right !important;
+}
+.ta-c{
+    text-align: center !important;
+}
+
+
+.section_container{
+}

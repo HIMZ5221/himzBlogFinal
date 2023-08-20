@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+
+    <title>게시판</title>
+    <style>
+        .boardMain{
+            border: black 2px solid;
+            padding: 10px 50px;
+        }
+
+        .boardMain table{
+            border-top: 3px solid black;
+            border-bottom: 2px solid black;
+            width: 100%;
+        }
+        .boardMain th{
+            text-align: center;
+        }
+        .boardMain td{
+            border-top: 1px solid black;
+            text-align: center;
+        }
+        .ck-editor__editable { height: 300px; }
+        .ck-content { font-size: 12px; }
+
+    </style>
+</head>
+<body>
+
+    <div th:replace="~{publicPage/topNav :: topNav}"></div>
+
+    <section class="section_container M_SIZE boardMain">
+        <h2>새 글 쓰기</h2>
+        <form name="dataForm" id="dataForm">
+            <div class="mb-2">
+                <label for="contentsTitle" class="form-label">Title</label>
+                <input type="text" class="form-control" id="contentsTitle" name="title" placeholder="제목">
+            </div>
+            <div class="mb-2">
+                <label for="editor" class="form-label">Contents</label>
+                <textarea name="content" id="editor"></textarea>
+            </div>
+            <button type="button" class="btn btn-primary submitBtn" style="width: 100%">저장</button>
+        </form>
+
+    </section>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+    <script>
+
+        activeBtn(0,1,0);
+
+        let editor;
+
+        ClassicEditor.create( document.querySelector( '#editor' ),{
+            language: "ko" } )
+            .then(newEditor => {
+                editor = newEditor
+            })
+            .catch( error => {
+                console.error("에디터 생성중 에러발생")
+            });
+
+
+        $('.submitBtn').on('click',function (){
+            console.log('데이터 전송')
+            let formData = $('#dataForm').serializeObject();
+            formData.content = editor.getData()
+
+            $.ajax({
+            	url         : '/board/saveBoard',
+            	async       : true, // 비동기(기본) true / 동기 false
+            	type        : "post",
+            	data        : JSON.stringify(formData),
+            	contentType : "application/json",
+            	success     : function (result) {
+            		// try {
+            			if (result.res == 'success') {
+                            alert(result.res)
+            			}
+            	},
+            	error       : function (errorThrown) {
+            		alert(errorThrown.statusText);
+            	}
+            }).done(function () {
+            // 아작스 수행 후 실행할것
+
+            });
+        });
+
+    </script>
+</body>
+</html>
